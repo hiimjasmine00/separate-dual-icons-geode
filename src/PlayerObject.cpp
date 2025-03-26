@@ -3,7 +3,7 @@
 #include <Geode/modify/PlayerObject.hpp>
 
 
-class $modify(PlayerObject) {
+class $modify(MyPlayerObject, PlayerObject) {
     struct Fields {
         bool m_is2PMini = false;
     };

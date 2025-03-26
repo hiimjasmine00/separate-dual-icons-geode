@@ -3,7 +3,7 @@
 #include <Geode/modify/LevelEditorLayer.hpp>
 
 
-class $modify(LevelEditorLayer) {
+class $modify(MyLevelEditorLayer, LevelEditorLayer) {
     struct Fields {
         int lastType = 0;
     };
@@ -125,7 +125,7 @@ class $modify(LevelEditorLayer) {
         player2->setColor(GameManager::get()->colorForIdx(GDI_GET_VALUE(int64_t, "color1", 0)));
         player2->setSecondColor(GameManager::get()->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
         
-        if (GDI_GET_VALUE(bool, "glow", false) || GDI_GET_VALUE(int64_t, "color1", 0) == 15) {
+        if (GDI_GET_VALUE(bool, "glow", false)) {
             player2->m_hasGlow = true;
             player2->m_glowColor = GameManager::get()->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0));
         } else {

@@ -3,7 +3,7 @@
 #include <Geode/modify/PlayLayer.hpp>
 
 
-class $modify(PlayLayer) {
+class $modify(MyPlayLayer, PlayLayer) {
     bool init(GJGameLevel* p0, bool p1, bool p2) {
         PlayerData::callPosStreak = 0;
         if (!PlayLayer::init(p0, p1, p2)) return false;
@@ -51,7 +51,7 @@ class $modify(PlayLayer) {
         player2->setSecondColor(GameManager::get()->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
         
 
-        if (GDI_GET_VALUE(bool, "glow", false) || GDI_GET_VALUE(int64_t, "color1", 0) == 15) {
+        if (GDI_GET_VALUE(bool, "glow", false)) {
             player2->m_hasGlow = true;
             player2->m_glowColor = GameManager::get()->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0));
         } else {
