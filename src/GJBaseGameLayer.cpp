@@ -3,13 +3,21 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
 class $modify(MyBaseGameLayer, GJBaseGameLayer) {
+    void createPlayer() {
+        PlayerData::callPosStreak = 0;
+        GJBaseGameLayer::createPlayer();
+    }
+
     void playExitDualEffect(PlayerObject* p0) {
         GJBaseGameLayer::playExitDualEffect(p0);
 
         if (p0 == m_player2) {
             if (auto player = findFirstChildRecursive<SimplePlayer>(this, [](SimplePlayer* node) { return node->getZOrder() == 100; })) {
                 if (m_player2->m_isShip) {
-                    player->updatePlayerFrame(GDI_GET_VALUE(int64_t, "ship", 1), IconType::Ship);
+                    if (m_player2->m_isPlatformer)
+                        player->updatePlayerFrame(GDI_GET_VALUE(int64_t, "jetpack", 1), IconType::Jetpack);
+                    else
+                        player->updatePlayerFrame(GDI_GET_VALUE(int64_t, "ship", 1), IconType::Ship);
                 } else if (m_player2->m_isBall) {
                     player->updatePlayerFrame(GDI_GET_VALUE(int64_t, "roll", 1), IconType::Ball);
                 } else if (m_player2->m_isBird) {
