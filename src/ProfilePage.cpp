@@ -15,7 +15,7 @@ class $modify(MyProfilePage, ProfilePage) {
     void toggleShip(CCObject* sender) {
         ProfilePage::toggleShip(sender);
 
-        auto ship = static_cast<SimplePlayer*>(static_cast<CCMenuItemSpriteExtra*>(sender)->getNormalImage());
+        auto ship = static_cast<SimplePlayer*>(static_cast<CCMenuItemSprite*>(sender)->getNormalImage());
         auto GM = GameManager::get();
 
         if (GDI_GET_VALUE(bool, "2pselected", false)) {
@@ -56,7 +56,7 @@ class $modify(MyProfilePage, ProfilePage) {
         auto wave = getPlayer(menu->getChildByID("player-wave"));
         auto robot = getPlayer(menu->getChildByID("player-robot"));
         auto spider = getPlayer(menu->getChildByID("player-spider"));
-        auto swing = getPlayer(menu->getChildByID("player-swing"));    
+        auto swing = getPlayer(menu->getChildByID("player-swing"));
         auto jetpack = menu->getChildByID("player-jetpack") ? getPlayer(menu->getChildByID("player-jetpack")) : nullptr;
 
         if (static_cast<CCMenuItemToggler*>(sender)->isOn()) {
@@ -72,7 +72,7 @@ class $modify(MyProfilePage, ProfilePage) {
             if (jetpack) {
                 ship->updatePlayerFrame(GM->getPlayerShip(), IconType::Ship);
                 jetpack->updatePlayerFrame(GM->getPlayerJetpack(), IconType::Jetpack);
-                
+
                 jetpack->setColor(GM->colorForIdx(GM->getPlayerColor()));
                 jetpack->setSecondColor(GM->colorForIdx(GM->getPlayerColor2()));
                 jetpack->enableCustomGlowColor(GM->colorForIdx(GM->getPlayerGlowColor()));
@@ -134,7 +134,7 @@ class $modify(MyProfilePage, ProfilePage) {
             if (jetpack) {
                 ship->updatePlayerFrame(GDI_GET_VALUE(int64_t, "ship", 1), IconType::Ship);
                 jetpack->updatePlayerFrame(GDI_GET_VALUE(int64_t, "jetpack", 1), IconType::Jetpack);
-                
+
                 jetpack->setColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "color1", 0)));
                 jetpack->setSecondColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
                 jetpack->enableCustomGlowColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0)));
@@ -271,14 +271,14 @@ class $modify(MyProfilePage, ProfilePage) {
                 }
             }
         }
-        
+
         if (this->m_ownProfile && !m_fields->hasLoaded) {
-            
+
             m_fields->hasLoaded = true;
             auto winSize = CCDirector::get()->getWinSize();
 
             if (auto menu = m_mainLayer->getChildByID("left-menu")) {
-                
+
                 menu->setContentHeight(menu->getContentHeight()*2);
                 menu->setPositionY(menu->getPositionY() - menu->getContentHeight()/4);
 

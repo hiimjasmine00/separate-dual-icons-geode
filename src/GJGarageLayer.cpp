@@ -16,20 +16,20 @@ class $modify(MyGarageLayer, GJGarageLayer) {
         (void)self.setHookPriority("GJGarageLayer::onSelect", Priority::Last);
         (void)self.setHookPriority("GJGarageLayer::onSpecial", Priority::Last);
     }
-    
+
     void on2PToggle(CCObject* sender) {
         GDI_SET_VALUE(bool, "2pselected", static_cast<CCNode*>(sender)->getID() == "player2-button");
 
         auto GM = GameManager::get();
         auto winSize = CCDirector::get()->getWinSize();
 
-        auto menu = static_cast<ListButtonPage*>(m_iconSelection->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
+        auto menu = static_cast<CCNode*>(m_iconSelection->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
         CCMenu* menu2 = nullptr;
-        if (m_iconType == IconType::Special) 
-            menu2 = static_cast<ListButtonPage*>(m_iconSelection->getChildByType<ListButtonBar>(0)->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
+        if (m_iconType == IconType::Special)
+            menu2 = static_cast<CCNode*>(m_iconSelection->getChildByType<ListButtonBar>(0)->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
 
         if (GDI_GET_VALUE(bool, "2pselected", false)) {
-            
+
             int tag = 0;
             int tag2 = 0;
 
@@ -234,7 +234,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
             m_cursor2->setColor({0, 255, 255});
         } else if (m_cursor1->getColor() == ccColor3B({0, 255, 255})) {
             m_cursor1->setColor({255, 255, 0});
-            m_cursor2->setColor({255, 255, 0});            
+            m_cursor2->setColor({255, 255, 0});
         }
 
 
@@ -430,7 +430,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
         this->addChild(m_fields->arrow1);
         this->addChild(m_fields->arrow2);
 
-    
+
         auto swapSprite = CircleButtonSprite::createWithSprite("GJ_2PSwapBtn.png"_spr, 0.95, CircleBaseColor::Green, CircleBaseSize::Small);
         auto swapBtn = CCMenuItemSpriteExtra::create(swapSprite, this, menu_selector(MyGarageLayer::swap2PKit));
         swapBtn->setID("swap-2p-button");
@@ -459,12 +459,12 @@ class $modify(MyGarageLayer, GJGarageLayer) {
         if (GDI_GET_VALUE(bool, "2pselected", false)) {
             auto winSize = CCDirector::get()->getWinSize();
 
-            auto menu = static_cast<ListButtonPage*>(m_iconSelection->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
+            auto menu = static_cast<CCNode*>(m_iconSelection->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
             CCMenu* menu2 = nullptr;
 
-            if (m_iconType == IconType::Special) 
-                menu2 = static_cast<ListButtonPage*>(m_iconSelection->getChildByType<ListButtonBar>(0)->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
-            
+            if (m_iconType == IconType::Special)
+                menu2 = static_cast<CCNode*>(m_iconSelection->getChildByType<ListButtonBar>(0)->m_pages->objectAtIndex(0))->getChildByType<CCMenu>(0);
+
             int tag = 0;
             int tag2 = 0;
 
@@ -531,9 +531,9 @@ class $modify(MyGarageLayer, GJGarageLayer) {
 
         int n = sender->getTag();
         bool isUnlocked = GM->isIconUnlocked(n, m_iconType);
-        if (m_iconType == IconType::Special) 
+        if (m_iconType == IconType::Special)
             isUnlocked = true;
-        
+
         // same death effect cuz not working rn :(
         if (
             GDI_GET_VALUE(bool, "2pselected", false)
@@ -650,14 +650,13 @@ class $modify(MyGarageLayer, GJGarageLayer) {
                     }
                     break;
                 case IconType::Special:
-                    // please dont shit on me this is the only way LOL
                     if (static_cast<CCMenuItemSpriteExtra*>(sender)->m_iconType == IconType::Special) {
                         if (GM->isIconUnlocked(n, IconType::Special) && (GDI_GET_VALUE(int64_t, "lasttype", 0) != 99 || GDI_GET_VALUE(int64_t, "trail", 1) != n)) {
                             GDI_SET_VALUE(int64_t, "trail", n);
                             GDI_SET_VALUE(int64_t, "lasttype", 99);
-                        } else {    
+                        } else {
                             GJGarageLayer::showUnlockPopup(n, UnlockType::Streak);
-                            return; 
+                            return;
                         }
                     } else if (static_cast<CCMenuItemSpriteExtra*>(sender)->m_iconType == IconType::ShipFire) {
                         if (GM->isIconUnlocked(n, IconType::ShipFire) && (GDI_GET_VALUE(int64_t, "lasttype", 0) != 101 || GDI_GET_VALUE(int64_t, "shiptrail", 1) != n)) {

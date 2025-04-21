@@ -18,6 +18,10 @@ jobs:
         - name: macOS
           os: macos-latest
 
+        - name: iOS
+          os: macos-latest
+          target: iOS
+
         - name: Android32
           os: ubuntu-latest
           target: Android32
@@ -39,7 +43,7 @@ jobs:
           build-config: RelWithDebInfo
           export-pdb: true
           combine: true
-          # sdk: 'nightly'
+          sdk: 'nightly'
           target: ${{ matrix.config.target }}
 
   package:
@@ -53,6 +57,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          
+
           name: Build Output
           path: ${{ steps.build.outputs.build-output }}

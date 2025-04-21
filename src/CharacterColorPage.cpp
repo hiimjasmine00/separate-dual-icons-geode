@@ -48,7 +48,7 @@ class $modify(MyCharacterColorPage, CharacterColorPage) {
         CharacterColorPage::toggleShip(sender);
 
         if (GDI_GET_VALUE(bool, "2pselected", false)) {
-            auto ship = static_cast<SimplePlayer*>(static_cast<CCMenuItemSpriteExtra*>(sender)->getNormalImage());
+            auto ship = static_cast<SimplePlayer*>(static_cast<CCMenuItemSprite*>(sender)->getNormalImage());
 
             switch (sender->getTag()) {
                 case 1:
@@ -64,7 +64,7 @@ class $modify(MyCharacterColorPage, CharacterColorPage) {
         }
     }
 
-    
+
     void updateColorMode(int p0) {
         CharacterColorPage::updateColorMode(p0);
 
