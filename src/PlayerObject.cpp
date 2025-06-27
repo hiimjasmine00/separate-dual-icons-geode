@@ -50,6 +50,16 @@ class $modify(MyPlayerObject, PlayerObject) {
         GM->setGameVariable("0153", orgDeathExplode);
     }
 
+    bool init(int player, int ship, GJBaseGameLayer* gameLayer, CCLayer* layer, bool playLayer) {
+        return PlayerObject::init(
+            this->isPlayer2() ? GDI_GET_VALUE(int64_t, "cube", 1) : player,
+            this->isPlayer2() ? GDI_GET_VALUE(int64_t, "ship", 1) : ship,
+            gameLayer,
+            layer,
+            playLayer
+        );
+    }
+
     void setColor(ccColor3B const &color) {
         PlayerObject::setColor(this->isPlayer2() ? GameManager::get()->colorForIdx(GDI_GET_VALUE(int64_t, "color1", 0)) : color);
     }
@@ -63,7 +73,7 @@ class $modify(MyPlayerObject, PlayerObject) {
     }
 
     void updatePlayerShipFrame(int p0) {
-        PlayerObject::updatePlayerShipFrame(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "ship", 1) : p0);
+        PlayerObject::updatePlayerShipFrame(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "ship", 1) : p0);
     }
 
     void updatePlayerRollFrame(int p0) {
@@ -71,27 +81,27 @@ class $modify(MyPlayerObject, PlayerObject) {
     }
 
     void updatePlayerBirdFrame(int p0) {
-        PlayerObject::updatePlayerBirdFrame(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "bird", 1) : p0);
+        PlayerObject::updatePlayerBirdFrame(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "bird", 1) : p0);
     }
 
     void updatePlayerDartFrame(int p0) {
-        PlayerObject::updatePlayerDartFrame(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "dart", 1) : p0);
+        PlayerObject::updatePlayerDartFrame(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "dart", 1) : p0);
     }
 
     void createRobot(int p0) {
-        PlayerObject::createRobot(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "robot", 1) : p0);
+        PlayerObject::createRobot(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "robot", 1) : p0);
     }
 
     void createSpider(int p0) {
-        PlayerObject::createSpider(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "spider", 1) : p0);
+        PlayerObject::createSpider(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "spider", 1) : p0);
     }
 
     void updatePlayerSwingFrame(int p0) {
-        PlayerObject::updatePlayerSwingFrame(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "swing", 1) : p0);
+        PlayerObject::updatePlayerSwingFrame(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "swing", 1) : p0);
     }
 
     void updatePlayerJetpackFrame(int p0) {
-        PlayerObject::updatePlayerJetpackFrame(this->isPlayer2() ? GDI_GET_VALUE(int64_t, "jetpack", 1) : p0);
+        PlayerObject::updatePlayerJetpackFrame(p0 != 0 && this->isPlayer2() ? GDI_GET_VALUE(int64_t, "jetpack", 1) : p0);
     }
 
     void updateGlowColor() {
