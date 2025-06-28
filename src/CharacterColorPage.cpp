@@ -1,12 +1,12 @@
-#include "PlayerData.hpp"
 #include "Macros.hpp"
 #include <Geode/modify/CharacterColorPage.hpp>
 
+using namespace geode::prelude;
 
 class $modify(MyCharacterColorPage, CharacterColorPage) {
     static void onModify(auto& self) {
-        (void)self.setHookPriority("CharacterColorPage::onPlayerColor", Priority::Last);
-        (void)self.setHookPriority("CharacterColorPage::toggleGlow", Priority::Last);
+        (void)self.setHookPriority("CharacterColorPage::onPlayerColor", Priority::Replace);
+        (void)self.setHookPriority("CharacterColorPage::toggleGlow", Priority::Replace);
     }
 
     bool init() {
@@ -154,6 +154,7 @@ class $modify(MyCharacterColorPage, CharacterColorPage) {
                 icon->setSecondColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
                 icon->enableCustomGlowColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0)));
                 icon->m_hasGlowOutline = GDI_GET_VALUE(bool, "glow", false);
+                icon->updateColors();
             }
         }
     }

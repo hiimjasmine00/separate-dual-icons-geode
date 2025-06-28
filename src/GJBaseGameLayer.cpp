@@ -1,13 +1,9 @@
-#include "PlayerData.hpp"
 #include "Macros.hpp"
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
-class $modify(MyBaseGameLayer, GJBaseGameLayer) {
-    void createPlayer() {
-        PlayerData::callPosStreak = 0;
-        GJBaseGameLayer::createPlayer();
-    }
+using namespace geode::prelude;
 
+class $modify(MyBaseGameLayer, GJBaseGameLayer) {
     void playExitDualEffect(PlayerObject* p0) {
         GJBaseGameLayer::playExitDualEffect(p0);
 

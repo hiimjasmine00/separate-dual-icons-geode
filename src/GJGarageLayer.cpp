@@ -1,20 +1,18 @@
-#include "PlayerData.hpp"
 #include "Macros.hpp"
 #include <Geode/modify/GJGarageLayer.hpp>
+
+using namespace geode::prelude;
 
 class $modify(MyGarageLayer, GJGarageLayer) {
     struct Fields {
         CCSprite* arrow1;
         CCSprite* arrow2;
         SimplePlayer* player2;
-        ~Fields() {
-            GDI_SET_VALUE(bool, "2pselected", false);
-        }
     };
 
     static void onModify(auto& self) {
-        (void)self.setHookPriority("GJGarageLayer::onSelect", Priority::Last);
-        (void)self.setHookPriority("GJGarageLayer::onSpecial", Priority::Last);
+        (void)self.setHookPriority("GJGarageLayer::onSelect", Priority::Replace);
+        (void)self.setHookPriority("GJGarageLayer::onSpecial", Priority::Replace);
     }
 
     void on2PToggle(CCObject* sender) {
@@ -271,6 +269,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
         m_playerObject->setSecondColor(GM->colorForIdx(GM->m_playerColor2));
         m_playerObject->enableCustomGlowColor(GM->colorForIdx(GM->m_playerGlowColor));
         m_playerObject->m_hasGlowOutline = GM->m_playerGlow;
+        m_playerObject->updateColors();
 
         switch (GDI_GET_VALUE(int64_t, "lastmode", 0)) {
             case 0:
@@ -305,6 +304,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
         m_fields->player2->setSecondColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
         m_fields->player2->enableCustomGlowColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0)));
         m_fields->player2->m_hasGlowOutline = GDI_GET_VALUE(bool, "glow", false);
+        m_fields->player2->updateColors();
 
 
     }
@@ -318,6 +318,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
     }
 
     bool init() {
+        GDI_SET_VALUE(bool, "2pselected", false);
         if (!GJGarageLayer::init()) return false;
 
         auto GM = GameManager::get();
@@ -338,6 +339,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
         m_fields->player2->setSecondColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
         m_fields->player2->enableCustomGlowColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0)));
         m_fields->player2->m_hasGlowOutline = GDI_GET_VALUE(bool, "glow", false);
+        m_fields->player2->updateColors();
 
         // first time initiation loooool
         // god i write such shit code
@@ -707,6 +709,7 @@ class $modify(MyGarageLayer, GJGarageLayer) {
             m_fields->player2->setSecondColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "color2", 0)));
             m_fields->player2->enableCustomGlowColor(GM->colorForIdx(GDI_GET_VALUE(int64_t, "colorglow", 0)));
             m_fields->player2->m_hasGlowOutline = GDI_GET_VALUE(bool, "glow", false);
+            m_fields->player2->updateColors();
         }
     }
 };

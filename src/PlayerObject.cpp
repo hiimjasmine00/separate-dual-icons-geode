@@ -1,7 +1,7 @@
-#include "PlayerData.hpp"
 #include "Macros.hpp"
 #include <Geode/modify/PlayerObject.hpp>
 
+using namespace geode::prelude;
 
 class $modify(MyPlayerObject, PlayerObject) {
     void setupStreak() {
@@ -12,15 +12,10 @@ class $modify(MyPlayerObject, PlayerObject) {
         int origShipStreak = GM->m_playerShipFire;
         bool origGlow = GM->m_playerGlow;
 
-        if (m_gameLayer) {
-            if (PlayerData::callPosStreak == 1) {
-                GM->m_playerStreak = GDI_GET_VALUE(int64_t, "trail", 1);
-                GM->m_playerShipFire = GDI_GET_VALUE(int64_t, "shiptrail", 1);
-                GM->m_playerGlow = GDI_GET_VALUE(bool, "glow", false);
-            }
-
-            PlayerData::callPosStreak++;
-            if (PlayerData::callPosStreak == 2) PlayerData::callPosStreak = 0;
+        if (this->isPlayer2()) {
+            GM->m_playerStreak = GDI_GET_VALUE(int64_t, "trail", 1);
+            GM->m_playerShipFire = GDI_GET_VALUE(int64_t, "shiptrail", 1);
+            GM->m_playerGlow = GDI_GET_VALUE(bool, "glow", false);
         }
 
         PlayerObject::setupStreak();
@@ -31,7 +26,11 @@ class $modify(MyPlayerObject, PlayerObject) {
     }
 
     bool isPlayer2() {
-        return m_gameLayer && ((m_gameLayer->m_player1 && !m_gameLayer->m_player2 && this != m_gameLayer->m_player1) || this == m_gameLayer->m_player2);
+        return isPlayer2(m_gameLayer);
+    }
+
+    bool isPlayer2(GJBaseGameLayer* gameLayer) {
+        return gameLayer && ((gameLayer->m_player1 && !gameLayer->m_player2 && this != gameLayer->m_player1) || this == gameLayer->m_player2);
     }
 
     void playDeathEffect() {
@@ -52,8 +51,8 @@ class $modify(MyPlayerObject, PlayerObject) {
 
     bool init(int player, int ship, GJBaseGameLayer* gameLayer, CCLayer* layer, bool playLayer) {
         return PlayerObject::init(
-            this->isPlayer2() ? GDI_GET_VALUE(int64_t, "cube", 1) : player,
-            this->isPlayer2() ? GDI_GET_VALUE(int64_t, "ship", 1) : ship,
+            this->isPlayer2(gameLayer) ? GDI_GET_VALUE(int64_t, "cube", 1) : player,
+            this->isPlayer2(gameLayer) ? GDI_GET_VALUE(int64_t, "ship", 1) : ship,
             gameLayer,
             layer,
             playLayer
